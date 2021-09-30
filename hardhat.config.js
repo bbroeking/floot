@@ -7,6 +7,7 @@ require("hardhat-deploy-ethers");
 require("hardhat-gas-reporter");
 // require("hardhat-typechain");
 require("solidity-coverage");
+require('hardhat-abi-exporter');
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -41,8 +42,8 @@ module.exports = {
       gas: 12000000,
       blockGasLimit: 0x1fffffffffffff,
     },
-    ropsten: {
-      url: process.env.ROPSTEN_URL || "",
+    rinkeby: {
+      url: process.env.RINKEBY_URL || "",
       accounts:
         process.env.ETHEREUM_HARDHAT_PRIVATE_KEY !== undefined
           ? [process.env.ETHEREUM_HARDHAT_PRIVATE_KEY]
@@ -63,4 +64,12 @@ module.exports = {
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
   },
+  abiExporter: {
+  path: './abi',
+  clear: true,
+  flat: true,
+  only: [],
+  spacing: 2,
+  pretty: true,
+}
 };

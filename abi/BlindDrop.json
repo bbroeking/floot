@@ -1,0 +1,14 @@
+[
+  "event SetFinalSeed(bytes32 seed)",
+  "event SetSeed(bytes32 seed)",
+  "event SetSeedBlockNumber(uint256 blockNumber)",
+  "function DISTRIBUTION_AUTO_END_TIMESTAMP() view returns (uint256)",
+  "function GUARDIAN_HASH() view returns (bytes32)",
+  "function GUARDIAN_WINDOW_DURATION_SECONDS() view returns (uint256)",
+  "function getFinalSeed() view returns (bytes32)",
+  "function setAutomaticSeed()",
+  "function setFallbackSeed()",
+  "function setFallbackSeedBlockNumber()",
+  "function setFinalSeed()",
+  "function setGuardianSeed(bytes32 guardianSeed)"
+]

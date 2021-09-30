@@ -20,7 +20,10 @@ module.exports = {
     },
     {
       files: ["scripts/**"],
-      rules: { "no-process-exit": "off" },
+      rules: { 
+        "no-process-exit": "off",
+        "avoidEscape": false,
+      },
     },
     {
       files: ["hardhat.config.js", "scripts/**", "test/**"],

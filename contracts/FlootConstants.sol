@@ -18,51 +18,19 @@ library FlootConstants {
   using strings for strings.slice;
 
   enum ListName {
-    WEAPON,
-    CHEST,
-    HEAD,
-    WAIST,
-    FOOT,
-    HAND,
-    NECK,
-    RING,
-    SUFFIX,
-    NAME_PREFIX,
-    NAME_SUFFIX
+    MOVE_NAME,
+    TYPE_OF_MOVE,
+    TYPE
   }
 
-  string internal constant WEAPONS = "Warhammer,Quarterstaff,Maul,Mace,Club,Katana,Falchion,Scimitar,Long Sword,Short Sword,Ghost Wand,Grave Wand,Bone Wand,Wand,Grimoire,Chronicle,Tome,Book";
-  uint256 internal constant WEAPONS_LENGTH = 18;
+  string internal constant MOVES = "Absorb,Acid,Acid Armor,Agility,Amnesia,Aurora Beam,Barrage,Barrier,Bide,Bind,Bite,Blizzard,Body Slam,Bone Club,Bonemerang,Bubble,Bubble Beam,Clamp,Comet Punch,Confuse Ray,Confusion,Constrict,Conversion,Counter,Crabhammer,Cut,Defense Curl,Dig,Disable,Dizzy Punch,Double Kick,Double Slap,Double Team,Double-Edge,Dragon Rage,Dream Eater,Drill Peck,Earthquake,Egg Bomb,Ember,Explosion,Fire Blast,Fire Punch,Fire Spin,Fissure,Flamethrower,Flash,Fly,Focus Energy,Fury Attack,Fury Swipes,Glare,Growl,Growth,Guillotine,Gust,Harden,Haze,Headbutt,High Jump Kick,Horn Attack,Horn Drill,Hydro Pump,Hyper Beam,Hyper Fang,Hypnosis,Ice Beam,Ice Punch,Jump Kick,Karate Chop,Kinesis,Leech Life,Leech Seed,Leer,Lick,Light Screen,Lovely Kiss,Low Kick,Meditate,Mega Drain,Mega Kick,Mega Punch,Metronome,Mimic,Minimize,Mirror Move,Mist,Night Shade,Pay Day,Peck,Petal Dance,Pin Missile,Poison Gas,Poison Powder,Poison Sting,Pound,Psybeam,Psychic,Psywave,Quick Attack,Rage,Razor Leaf,Razor Wind,Recover,Reflect,Rest,Roar,Rock Slide,Rock Throw,Rolling Kick,Sand Attack,Scratch,Screech,Seismic Toss,Self-Destruct,Sharpen,Sing,Skull Bash,Sky Attack,Slam,Slash,Sleep Powder,Sludge,Smog,Smokescreen,Soft-Boiled,Solar Beam,Sonic Boom,Spike Cannon,Splash,Spore,Stomp,Strength,String Shot,Struggle,Stun Spore,Submission,Substitute,Super Fang,Supersonic,Surf,Swift,Swords Dance,Tackle,Tail Whip,Take Down,Teleport,Thrash,Thunder,Thunder Punch,Thunder Shock,Thunder Wave,Thunderbolt,Toxic,Transform,Tri Attack,Twineedle,Vice Grip,Vine Whip,Water Gun,Waterfall,Whirlwind,Wing Attack,Withdraw,Wrap";
+  uint256 internal constant MOVES_LENGTH = 165;
 
-  string internal constant CHEST_ARMOR = "Divine Robe,Silk Robe,Linen Robe,Robe,Shirt,Demon Husk,Dragonskin Armor,Studded Leather Armor,Hard Leather Armor,Leather Armor,Holy Chestplate,Ornate Chestplate,Plate Mail,Chain Mail,Ring Mail";
-  uint256 internal constant CHEST_ARMOR_LENGTH = 15;
+  string internal constant TYPE_OF_MOVE = "#78c84f,#9f409f,#9f409f,#f85787,#f85787,#98d8d8,#a8a877,#f85787,#a8a877,#a8a877,#705848,#98d8d8,#a8a877,#e0c068,#e0c068,#6790f0,#6790f0,#6790f0,#a8a877,#705898,#f85787,#a8a877,#a8a877,#c03028,#6790f0,#a8a877,#a8a877,#e0c068,#a8a877,#a8a877,#c03028,#a8a877,#a8a877,#a8a877,#7038f8,#f85787,#a890f0,#e0c068,#a8a877,#ef8030,#a8a877,#ef8030,#ef8030,#ef8030,#e0c068,#ef8030,#a8a877,#a890f0,#a8a877,#a8a877,#a8a877,#a8a877,#a8a877,#a8a877,#a8a877,#a890f0,#a8a877,#98d8d8,#a8a877,#c03028,#a8a877,#a8a877,#6790f0,#a8a877,#a8a877,#f85787,#98d8d8,#98d8d8,#c03028,#c03028,#f85787,#a8b720,#78c84f,#a8a877,#705898,#f85787,#a8a877,#c03028,#f85787,#78c84f,#a8a877,#a8a877,#a8a877,#a8a877,#a8a877,#a890f0,#98d8d8,#705898,#a8a877,#a890f0,#78c84f,#a8b720,#9f409f,#9f409f,#9f409f,#a8a877,#f85787,#f85787,#f85787,#a8a877,#a8a877,#78c84f,#a8a877,#a8a877,#f85787,#f85787,#a8a877,#b8a038,#b8a038,#c03028,#e0c068,#a8a877,#a8a877,#c03028,#a8a877,#a8a877,#a8a877,#a8a877,#a890f0,#a8a877,#a8a877,#78c84f,#9f409f,#9f409f,#a8a877,#a8a877,#78c84f,#a8a877,#a8a877,#a8a877,#78c84f,#a8a877,#a8a877,#a8b720,#a8a877,#78c84f,#c03028,#a8a877,#a8a877,#a8a877,#6790f0,#a8a877,#a8a877,#a8a877,#a8a877,#a8a877,#f85787,#a8a877,#f8cf30,#f8cf30,#f8cf30,#f8cf30,#f8cf30,#9f409f,#a8a877,#a8a877,#a8b720,#a8a877,#78c84f,#6790f0,#6790f0,#a8a877,#a890f0,#6790f0,#a8a877";
+  uint256 internal constant TYPE_OF_MOVE_LENGTH = 165;
 
-  string internal constant HEAD_ARMOR = "Ancient Helm,Ornate Helm,Great Helm,Full Helm,Helm,Demon Crown,Dragon's Crown,War Cap,Leather Cap,Cap,Crown,Divine Hood,Silk Hood,Linen Hood,Hood";
-  uint256 internal constant HEAD_ARMOR_LENGTH = 15;
-
-  string internal constant WAIST_ARMOR = "Ornate Belt,War Belt,Plated Belt,Mesh Belt,Heavy Belt,Demonhide Belt,Dragonskin Belt,Studded Leather Belt,Hard Leather Belt,Leather Belt,Brightsilk Sash,Silk Sash,Wool Sash,Linen Sash,Sash";
-  uint256 internal constant WAIST_ARMOR_LENGTH = 15;
-
-  string internal constant FOOT_ARMOR = "Holy Greaves,Ornate Greaves,Greaves,Chain Boots,Heavy Boots,Demonhide Boots,Dragonskin Boots,Studded Leather Boots,Hard Leather Boots,Leather Boots,Divine Slippers,Silk Slippers,Wool Shoes,Linen Shoes,Shoes";
-  uint256 internal constant FOOT_ARMOR_LENGTH = 15;
-
-  string internal constant HAND_ARMOR = "Holy Gauntlets,Ornate Gauntlets,Gauntlets,Chain Gloves,Heavy Gloves,Demon's Hands,Dragonskin Gloves,Studded Leather Gloves,Hard Leather Gloves,Leather Gloves,Divine Gloves,Silk Gloves,Wool Gloves,Linen Gloves,Gloves";
-  uint256 internal constant HAND_ARMOR_LENGTH = 15;
-
-  string internal constant NECKLACES = "Necklace,Amulet,Pendant";
-  uint256 internal constant NECKLACES_LENGTH = 3;
-
-  string internal constant RINGS = "Gold Ring,Silver Ring,Bronze Ring,Platinum Ring,Titanium Ring";
-  uint256 internal constant RINGS_LENGTH = 5;
-
-  string internal constant SUFFIXES = "of Power,of Giants,of Titans,of Skill,of Perfection,of Brilliance,of Enlightenment,of Protection,of Anger,of Rage,of Fury,of Vitriol,of the Fox,of Detection,of Reflection,of the Twins";
-  uint256 internal constant SUFFIXES_LENGTH = 16;
-
-  string internal constant NAME_PREFIXES = "Agony,Apocalypse,Armageddon,Beast,Behemoth,Blight,Blood,Bramble,Brimstone,Brood,Carrion,Cataclysm,Chimeric,Corpse,Corruption,Damnation,Death,Demon,Dire,Dragon,Dread,Doom,Dusk,Eagle,Empyrean,Fate,Foe,Gale,Ghoul,Gloom,Glyph,Golem,Grim,Hate,Havoc,Honour,Horror,Hypnotic,Kraken,Loath,Maelstrom,Mind,Miracle,Morbid,Oblivion,Onslaught,Pain,Pandemonium,Phoenix,Plague,Rage,Rapture,Rune,Skull,Sol,Soul,Sorrow,Spirit,Storm,Tempest,Torment,Vengeance,Victory,Viper,Vortex,Woe,Wrath,Light's,Shimmering";
-  uint256 internal constant NAME_PREFIXES_LENGTH = 69;
-
-  string internal constant NAME_SUFFIXES = "Bane,Root,Bite,Song,Roar,Grasp,Instrument,Glow,Bender,Shadow,Whisper,Shout,Growl,Tear,Peak,Form,Sun,Moon";
-  uint256 internal constant NAME_SUFFIXES_LENGTH = 18;
+  string internal constant TYPES = "#a8a877,#ef8030,#6790f0,#78c84f,#f8cf30,#98d8d8,#c03028,#9f409f,#e0c068,#a890f0,#f85787,#a8b720,#b8a038,#705898,#705848,#7038f8,#b8b8d0,#f0b6bc";
+  uint256 internal constant TYPES_LENGTH = 18;
 
   function getItem(
     uint256 rand,
@@ -72,38 +40,14 @@ library FlootConstants {
     pure
     returns (string memory)
   {
-    if (listName == ListName.WEAPON) {
-      return getItemFromCsv(WEAPONS, rand % WEAPONS_LENGTH);
+    if (listName == ListName.MOVE_NAME) {
+      return getItemFromCsv(MOVES, rand % MOVES_LENGTH);
     }
-    if (listName == ListName.CHEST) {
-      return getItemFromCsv(CHEST_ARMOR, rand % CHEST_ARMOR_LENGTH);
+    if (listName == ListName.TYPE_OF_MOVE) {
+      return getItemFromCsv(TYPE_OF_MOVE, rand % TYPE_OF_MOVE_LENGTH);
     }
-    if (listName == ListName.HEAD) {
-      return getItemFromCsv(HEAD_ARMOR, rand % HEAD_ARMOR_LENGTH);
-    }
-    if (listName == ListName.WAIST) {
-      return getItemFromCsv(WAIST_ARMOR, rand % WAIST_ARMOR_LENGTH);
-    }
-    if (listName == ListName.FOOT) {
-      return getItemFromCsv(FOOT_ARMOR, rand % FOOT_ARMOR_LENGTH);
-    }
-    if (listName == ListName.HAND) {
-      return getItemFromCsv(HAND_ARMOR, rand % HAND_ARMOR_LENGTH);
-    }
-    if (listName == ListName.NECK) {
-      return getItemFromCsv(NECKLACES, rand % NECKLACES_LENGTH);
-    }
-    if (listName == ListName.RING) {
-      return getItemFromCsv(RINGS, rand % RINGS_LENGTH);
-    }
-    if (listName == ListName.SUFFIX) {
-      return getItemFromCsv(SUFFIXES, rand % SUFFIXES_LENGTH);
-    }
-    if (listName == ListName.NAME_PREFIX) {
-      return getItemFromCsv(NAME_PREFIXES, rand % NAME_PREFIXES_LENGTH);
-    }
-    if (listName == ListName.NAME_SUFFIX) {
-      return getItemFromCsv(NAME_SUFFIXES, rand % NAME_SUFFIXES_LENGTH);
+    if (listName == ListName.TYPE) {
+      return getItemFromCsv(TYPES, rand % TYPES_LENGTH);
     }
     revert("Invalid list name");
   }

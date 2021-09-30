@@ -66,9 +66,8 @@ describe("Floot tests", function () {
       console.log("Third mint gas used:", receipt3.gasUsed.toString());
 
       // Cannot generate SVGs or metadata until seed is finalized.
-      await expect(floot.getWeapon(1)).to.be.revertedWith("Final seed not set");
+      await expect(floot.getMove(1, 1)).to.be.revertedWith("Final seed not set");
       await expect(floot.tokenURI(1)).to.be.revertedWith("Final seed not set");
-
       // Check owners.
       await expect(floot.ownerOf(0)).to.be.revertedWith(
         "ERC721: owner query for nonexistent token"
@@ -79,7 +78,6 @@ describe("Floot tests", function () {
       await expect(floot.ownerOf(4)).to.be.revertedWith(
         "ERC721: owner query for nonexistent token"
       );
-
       // Finalize random seed.
       await floot.setAutomaticSeedBlockNumber();
       await ethers.provider.send("evm_mine", []);

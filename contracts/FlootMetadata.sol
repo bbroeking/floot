@@ -30,88 +30,58 @@ abstract contract FlootMetadata is
     return uint256(keccak256(abi.encodePacked(input)));
   }
 
-  function getWeapon(
-    uint256 tokenId
+  function getMove(
+    uint256 tokenId,
+    uint256 moveId
   )
     public
     view
-    returns (string memory)
+    returns (string memory, string memory)
   {
-    return pluck(tokenId, FlootConstants.ListName.WEAPON);
+    return pluckMove(tokenId, moveId);
   }
 
-  function getChest(
-    uint256 tokenId
+  function getType(
+    uint256 tokenId,
+    string memory typeId
   )
     public
     view
     returns (string memory)
   {
-    return pluck(tokenId, FlootConstants.ListName.CHEST);
+    return pluck(tokenId, typeId, FlootConstants.ListName.TYPE);
   }
 
-  function getHead(
-    uint256 tokenId
+  function pluckMove(
+    uint256 tokenId,
+    uint256 moveId
   )
-    public
+    internal
     view
-    returns (string memory)
+    returns (string memory, string memory)
   {
-    return pluck(tokenId, FlootConstants.ListName.HEAD);
-  }
+    // Get the blind drop seed. Will revert if the distribution is not complete or if the seed
+    // has not yet been finalized.
+    bytes32 seed = getFinalSeed();
 
-  function getWaist(
-    uint256 tokenId
-  )
-    public
-    view
-    returns (string memory)
-  {
-    return pluck(tokenId, FlootConstants.ListName.WAIST);
-  }
+    // On-chain randomness.
+    string memory inputForRandomness = string(abi.encodePacked(
+      FlootConstants.ListName.MOVE_NAME,
+      tokenId, // Note: No need to use toString() here.
+      seed,
+      moveId
+    ));
+    uint256 rand = random(inputForRandomness);
 
-  function getFoot(
-    uint256 tokenId
-  )
-    public
-    view
-    returns (string memory)
-  {
-    return pluck(tokenId, FlootConstants.ListName.FOOT);
-  }
-
-  function getHand(
-    uint256 tokenId
-  )
-    public
-    view
-    returns (string memory)
-  {
-    return pluck(tokenId, FlootConstants.ListName.HAND);
-  }
-
-  function getNeck(
-    uint256 tokenId
-  )
-    public
-    view
-    returns (string memory)
-  {
-    return pluck(tokenId, FlootConstants.ListName.NECK);
-  }
-
-  function getRing(
-    uint256 tokenId
-  )
-    public
-    view
-    returns (string memory)
-  {
-    return pluck(tokenId, FlootConstants.ListName.RING);
+    // Determine the item name based on the randomly generated number.
+    string memory output = FlootConstants.getItem(rand, FlootConstants.ListName.MOVE_NAME);
+    string memory moveType = FlootConstants.getItem(rand, FlootConstants.ListName.TYPE_OF_MOVE);
+    return (output, moveType);
   }
 
   function pluck(
     uint256 tokenId,
+    string memory typeId,
     FlootConstants.ListName keyPrefix
   )
     internal
@@ -126,28 +96,23 @@ abstract contract FlootMetadata is
     string memory inputForRandomness = string(abi.encodePacked(
       keyPrefix,
       tokenId, // Note: No need to use toString() here.
-      seed
+      seed,
+      typeId
     ));
     uint256 rand = random(inputForRandomness);
-
-    // Determine the item name based on the randomly generated number.
-    string memory output = FlootConstants.getItem(rand, keyPrefix);
     uint256 greatness = rand % 21;
-    if (greatness > 14) {
-      output = string(abi.encodePacked(output, " ", FlootConstants.getItem(rand, FlootConstants.ListName.SUFFIX)));
+    if(greatness < 18) {
+      return typeId;
+    } else {
+      // Determine the item name based on the randomly generated number.
+      string memory output = FlootConstants.getItem(rand, keyPrefix);
+      return output;
     }
-    if (greatness >= 19) {
-      string[2] memory name;
-      name[0] = FlootConstants.getItem(rand, FlootConstants.ListName.NAME_PREFIX);
-      name[1] = FlootConstants.getItem(rand, FlootConstants.ListName.NAME_SUFFIX);
-      if (greatness == 19) {
-        output = string(abi.encodePacked('"', name[0], ' ', name[1], '" ', output));
-      } else {
-        output = string(abi.encodePacked('"', name[0], ' ', name[1], '" ', output, " +1"));
-      }
-    }
-    return output;
   }
+
+  function rdm(uint number) private view returns (uint) {
+    return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, number))) % 4 + 5;
+  } 
 
   function tokenURI(
     uint256 tokenId
@@ -157,32 +122,55 @@ abstract contract FlootMetadata is
     view
     returns (string memory)
   {
-    string[17] memory parts;
-    parts[0] = '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: white; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="black" /><text x="10" y="20" class="base">';
-    parts[1] = getWeapon(tokenId);
-    parts[2] = '</text><text x="10" y="40" class="base">';
-    parts[3] = getChest(tokenId);
-    parts[4] = '</text><text x="10" y="60" class="base">';
-    parts[5] = getHead(tokenId);
-    parts[6] = '</text><text x="10" y="80" class="base">';
-    parts[7] = getWaist(tokenId);
-    parts[8] = '</text><text x="10" y="100" class="base">';
-    parts[9] = getFoot(tokenId);
-    parts[10] = '</text><text x="10" y="120" class="base">';
-    parts[11] = getHand(tokenId);
-    parts[12] = '</text><text x="10" y="140" class="base">';
-    parts[13] = getNeck(tokenId);
-    parts[14] = '</text><text x="10" y="160" class="base">';
-    parts[15] = getRing(tokenId);
-    parts[16] = '</text></svg>';
+    (string memory move, string memory moveType) = getMove(tokenId, 1);
+    (string memory secondMove, string memory secondMoveType) = getMove(tokenId, 2);
+    (string memory thirdMove, string memory thirdMoveType) = getMove(tokenId, 3);
+    (string memory fourthMove, string memory fourthMoveType) = getMove(tokenId, 4);
+
+    string[33] memory parts;
+    parts[0] = '<svg width="400" height="250" xmlns="http://www.w3.org/2000/svg"><style>rect.move {stroke:white; stroke-width:1px;} rect.square {stroke:white; stroke-width:1px;}</style><rect x="0" y="0" width="150" height="50" rx="10" ry="10" fill="#000000" class="square"/><text x="25" y="25" dominant-baseline="middle" text-anchor="middle" fill="white">';
+    parts[1] = FlootConstants.toString(rdm(1));
+    parts[2] = '</text><rect x="50" y="0" width="50" height="50" rx="10" ry="10" fill="#0" class="square"/><text x="75" y="25" dominant-baseline="middle" text-anchor="middle" fill="white">';
+    parts[3] = FlootConstants.toString(rdm(2));
+    parts[4] = '</text><rect x="100" y="0" width="50" height="50" rx="10" ry="10" fill="#0" class="square"/><text x="125" y="25" dominant-baseline="middle" text-anchor="middle" fill="white">';
+    parts[5] = FlootConstants.toString(rdm(3));
+    parts[6] = '</text><rect x="150" y="0" width="50" height="50" rx="10" ry="10" fill="';
+    parts[7] = getType(tokenId, thirdMoveType);
+    parts[8] = '" class="square"/><rect x="200" y="0" width="50" height="50" rx="10" ry="10" fill="';
+    parts[9] = getType(tokenId, moveType);
+    parts[10] = '" class="square"/><text x="225" y="25" dominant-baseline="middle" text-anchor="middle" fill="white"></text><rect x="250" y="0" width="150" height="50" rx="10" ry="10" fill="#0" class="square"/><rect x="250" y="0" width="50" height="50" rx="10" ry="10" fill="0" class="square"/><text x="275" y="25" dominant-baseline="middle" text-anchor="middle" fill="white">';
+    parts[11] = FlootConstants.toString(rdm(4));
+    parts[12] = '</text><rect x="300" y="0" width="50" height="50" rx="10" ry="10" fill="#0" class="square"/><text x="325" y="25" dominant-baseline="middle" text-anchor="middle" fill="white">';
+    parts[13] = FlootConstants.toString(rdm(5));
+    parts[14] = '</text><text x="375" y="25" dominant-baseline="middle" text-anchor="middle" fill="white">';
+    parts[15] = FlootConstants.toString(rdm(6));
+    parts[16] = '</text><rect x="0" y="50" width="200" height="100" rx="10" ry="10" fill="';
+    parts[17] = moveType;
+    parts[18] = '" class="move"/><text x="100" y="100" dominant-baseline="middle" text-anchor="middle" fill="white">';
+    parts[19] = move;
+    parts[20] = '</text><rect x="200" y="50" width="200" height="100" rx="10" ry="10" fill="';
+    parts[21] = secondMoveType;
+    parts[22] = '" class="move"/><text x="300" y="100" dominant-baseline="middle" text-anchor="middle" fill="white">';
+    parts[23] = secondMove;
+    parts[24] = '</text><rect x="0" y="150" width="200" height="100" rx="10" ry="10" fill="';
+    parts[25] = thirdMoveType;
+    parts[26] = '" class="move"/><text x="100" y="200" dominant-baseline="middle" text-anchor="middle" fill="white">';
+    parts[27] = thirdMove;
+    parts[28] = '</text><rect x="200" y="150" width="200" height="100" rx="10" ry="10" fill="';
+    parts[29] = fourthMoveType;
+    parts[30] = '" class="move"/><text x="300" y="200" dominant-baseline="middle" text-anchor="middle" fill="white">';
+    parts[31] = fourthMove;
+    parts[32] = '</text></svg>';
 
     string memory output = string(abi.encodePacked(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6], parts[7], parts[8]));
     output = string(abi.encodePacked(output, parts[9], parts[10], parts[11], parts[12], parts[13], parts[14], parts[15], parts[16]));
+    output = string(abi.encodePacked(output, parts[17], parts[18], parts[19], parts[20], parts[21], parts[22], parts[23], parts[24]));
+    output = string(abi.encodePacked(output, parts[25], parts[26], parts[27], parts[28], parts[29], parts[30], parts[31], parts[32]));
 
     string memory json = Base64.encode(bytes(string(abi.encodePacked(
-      '{"name": "Bag #',
+      '{"name": "Ethereal #',
       FlootConstants.toString(tokenId),
-      '", "description": "Floot is randomized adventurer gear generated and stored on chain. Stats, images, and other functionality are intentionally omitted for others to interpret. Feel free to use Floot in any way you want.", "image": "data:image/svg+xml;base64,',
+      '", "description": "Ethereals are blueprints for digital turn based battlers. Each includes a 4-move set, 6 base stats and 1 or 2 types. Feel free to use Ethereals in any way you want.", "image": "data:image/svg+xml;base64,',
       Base64.encode(bytes(output)),
       '"}'
     ))));
